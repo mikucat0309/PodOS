@@ -17,6 +17,13 @@ dnf clean all
 rm -rf /var/cache/* /var/lib/dnf /var/log/dnf5.log /run/dnf /run/cloud-init
 EORUN
 
+# -------- VM --------
+
+RUN mkdir -p /usr/lib/bootc/kargs.d
+COPY <<EOF /usr/lib/bootc/kargs.d/99-console.toml
+kargs = ["console=tty0", "console=ttyS0,115200"]
+EOF
+
 # -------- Bootc --------
 
 COPY <<EOF /usr/lib/composefs/setup-root-conf.toml
@@ -65,6 +72,8 @@ EOF
 COPY <<EOF /usr/lib/tmpfiles.d/99-cloud-init-dirs.conf
 d /var/lib/cloud 0755 root root - -
 EOF
+
+RUN rm /usr/lib/systemd/system/sshd-keygen@.service.d/disable-sshd-keygen-if-cloud-init-active.conf
 
 # -------- NTP --------
 
