@@ -19,12 +19,12 @@ EORUN
 
 # -------- VM --------
 
-RUN mkdir -p /usr/lib/bootc/kargs.d /usr/lib/issue.d
+RUN mkdir -p /usr/lib/bootc/kargs.d
 COPY <<EOF /usr/lib/bootc/kargs.d/99-console.toml
 kargs = ["console=tty0", "console=ttyS0,115200"]
 EOF
 
-COPY <<'EOF' /usr/lib/issue.d/99-bootc.issue
+COPY <<'EOF' /etc/issue
 \S{PRETTY_NAME} \r (\l)
 Current IP: \4 \6
 EOF
