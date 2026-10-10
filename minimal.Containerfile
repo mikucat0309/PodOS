@@ -66,11 +66,11 @@ RUN ln -s /usr/lib/systemd/system/bootc-generic-growpart.service /usr/lib/system
 
 # -------- Network --------
 
-ADD --chmod=755 https://github.com/mikucat0309/NetSprout/releases/latest/download/netsprout \
+ADD --chmod=755 https://github.com/mikucat0309/NetSprout/releases/download/v0.1.1/netsprout \
     /usr/local/bin/netsprout
 ADD --chmod=644 https://github.com/mikucat0309/NetSprout/raw/refs/heads/main/systemd/netsprout.service \
     /usr/lib/systemd/system/netsprout.service
-RUN systemctl enable netsprout.service
+RUN systemctl enable systemd-networkd.service netsprout.service
 
 # -------- NTP --------
 
