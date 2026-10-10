@@ -11,10 +11,10 @@ EOF
 
 RUN <<EORUN
 set -exuo pipefail
-dnf install -y shadow-utils sudo systemd-networkd systemd-resolved cloud-init cloud-utils-growpart \
+dnf install -y shadow-utils sudo systemd-networkd systemd-resolved cloud-utils-growpart \
   iproute openssh-server podman
 dnf clean all
-rm -rf /var/cache/* /var/lib/dnf /var/log/dnf5.log /run/dnf /run/cloud-init
+rm -rf /var/cache/* /var/lib/dnf /var/log/dnf5.log /run/dnf
 EORUN
 
 # -------- VM --------
@@ -64,21 +64,13 @@ EOF
 RUN mkdir -p /usr/lib/systemd/system/local-fs.target.wants
 RUN ln -s /usr/lib/systemd/system/bootc-generic-growpart.service /usr/lib/systemd/system/local-fs.target.wants/bootc-generic-growpart.service
 
-# -------- Cloud-init --------
+# -------- Network --------
 
-COPY <<EOF /etc/cloud/cloud.cfg.d/99-bootc.cfg
-ssh_deletekeys: false
-ssh_genkeytypes: []
-growpart:
-  mode: off
-resize_rootfs: false
-EOF
-
-COPY <<EOF /usr/lib/tmpfiles.d/99-cloud-init-dirs.conf
-d /var/lib/cloud 0755 root root - -
-EOF
-
-RUN rm /usr/lib/systemd/system/sshd-keygen@.service.d/disable-sshd-keygen-if-cloud-init-active.conf
+ADD --chmod=755 https://github.com/mikucat0309/NetSprout/releases/latest/download/netsprout \
+    /usr/local/bin/netsprout
+ADD --chmod=644 https://github.com/mikucat0309/NetSprout/raw/refs/heads/main/systemd/netsprout.service \
+    /usr/lib/systemd/system/netsprout.service
+RUN systemctl enable netsprout.service
 
 # -------- NTP --------
 
