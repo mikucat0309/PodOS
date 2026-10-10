@@ -112,10 +112,7 @@ EOF
 
 # -------- User --------
 
-COPY <<EOF /usr/lib/sysusers.d/99-${SSH_USER}.conf
-u ${SSH_USER} - - /var/home/${SSH_USER} /usr/bin/bash
-m ${SSH_USER} wheel
-EOF
+RUN useradd --uid 1000 --home-dir /var/home/${SSH_USER} --no-create-home --shell /usr/bin/bash ${SSH_USER}
 
 COPY --chmod=440 <<EOF /etc/sudoers.d/99-${SSH_USER}
 ${SSH_USER} ALL=(ALL) NOPASSWD: ALL
