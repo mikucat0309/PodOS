@@ -1,7 +1,8 @@
+ARG FEDORA_VERSION=44
 ARG KERNEL_VERSION=0.0.0-invalid.fc00.x86_64
-FROM ghcr.io/ublue-os/akmods-nvidia-open:main-44-${KERNEL_VERSION} AS akmods
+FROM ghcr.io/ublue-os/akmods-nvidia-open:main-${FEDORA_VERSION}-${KERNEL_VERSION} AS akmods
 
-FROM ghcr.io/mikucat0309/podos:latest
+FROM ghcr.io/mikucat0309/podos:${FEDORA_VERSION}
 
 RUN --mount=type=bind,from=akmods,src=/rpms,dst=/akmods <<EORUN
 set -exuo pipefail

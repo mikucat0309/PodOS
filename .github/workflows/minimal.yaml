@@ -32,9 +32,10 @@ jobs:
         with:
           file: minimal.Containerfile
           build-args: |
+            FEDORA_VERSION=44
             SSH_USER=mikucat
             SSH_PUBKEY_FILE=https://github.com/mikucat0309.keys
-          tags: ghcr.io/mikucat0309/podos:latest
+          tags: ghcr.io/mikucat0309/podos:44
           platforms: linux/amd64
           push: true
           provenance: false

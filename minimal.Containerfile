@@ -1,4 +1,5 @@
-FROM quay.io/bootc-devel/fedora-bootc-44-minimal:latest
+ARG FEDORA_VERSION=44
+FROM quay.io/bootc-devel/fedora-bootc-${FEDORA_VERSION}-minimal:latest
 
 ARG SSH_USER=user
 ARG SSH_PUBKEY_FILE=authorized_keys

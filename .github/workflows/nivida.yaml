@@ -46,8 +46,9 @@ jobs:
         with:
           file: nvidia.Containerfile
           build-args: |
+            FEDORA_VERSION=44
             KERNEL_VERSION=${{ steps.meta.outputs.kernel-version }}
-          tags: ghcr.io/mikucat0309/podos:latest-nvidia
+          tags: ghcr.io/mikucat0309/podos:44-nvidia
           platforms: linux/amd64
           push: true
           provenance: false
