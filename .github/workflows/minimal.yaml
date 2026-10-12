@@ -7,6 +7,9 @@ permissions:
   contents: read
   packages: write
 
+env:
+  FEDORA_VERSION: "44"
+
 jobs:
   build:
     runs-on: ubuntu-26.04
@@ -32,10 +35,8 @@ jobs:
         with:
           file: minimal.Containerfile
           build-args: |
-            FEDORA_VERSION=44
-            SSH_USER=mikucat
-            SSH_PUBKEY_FILE=https://github.com/mikucat0309.keys
-          tags: ghcr.io/mikucat0309/podos:44
+            FEDORA_VERSION=${{ env.FEDORA_VERSION }}
+          tags: ghcr.io/mikucat0309/podos:${{ env.FEDORA_VERSION }}
           platforms: linux/amd64
           push: true
           provenance: false

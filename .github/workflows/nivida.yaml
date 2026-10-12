@@ -12,6 +12,9 @@ permissions:
   contents: read
   packages: write
 
+env:
+  FEDORA_VERSION: "44"
+
 jobs:
   build:
     runs-on: ubuntu-26.04
@@ -46,9 +49,9 @@ jobs:
         with:
           file: nvidia.Containerfile
           build-args: |
-            FEDORA_VERSION=44
+            FEDORA_VERSION=${{ env.FEDORA_VERSION }}
             KERNEL_VERSION=${{ steps.meta.outputs.kernel-version }}
-          tags: ghcr.io/mikucat0309/podos:44-nvidia
+          tags: ghcr.io/mikucat0309/podos:${{ env.FEDORA_VERSION }}-nvidia
           platforms: linux/amd64
           push: true
           provenance: false

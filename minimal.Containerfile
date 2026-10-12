@@ -1,9 +1,6 @@
 ARG FEDORA_VERSION=44
 FROM quay.io/bootc-devel/fedora-bootc-${FEDORA_VERSION}-minimal:latest
 
-ARG SSH_USER=user
-ARG SSH_PUBKEY_FILE=authorized_keys
-
 COPY <<EOF /etc/dnf/dnf.conf
 [main]
 tsflags=nodocs
@@ -110,21 +107,6 @@ d /var/db/sudo/lectured 0700 root root - -
 d /var/lib/ssh 0755 root root - -
 d /var/lib/ssh/hostkeys 0750 root root - -
 EOF
-
-# -------- User --------
-
-RUN useradd --uid 1000 --home-dir /var/home/${SSH_USER} --no-create-home --shell /usr/bin/bash ${SSH_USER}
-
-COPY --chmod=440 <<EOF /etc/sudoers.d/99-${SSH_USER}
-${SSH_USER} ALL=(ALL) NOPASSWD: ALL
-EOF
-
-COPY <<EOF /usr/lib/tmpfiles.d/99-${SSH_USER}.conf
-d /var/home/${SSH_USER} 0700 ${SSH_USER} ${SSH_USER} - -
-z /var/home/${SSH_USER} 0700 ${SSH_USER} ${SSH_USER} - -
-EOF
-
-ADD --chmod=644 ${SSH_PUBKEY_FILE} /usr/share/ssh/keys/${SSH_USER}.authorized_keys
 
 # -------- Cleanup --------
 
