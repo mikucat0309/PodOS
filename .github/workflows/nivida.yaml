@@ -36,12 +36,12 @@ jobs:
         uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # v4.3.0
 
       - name: Pull minimal image
-        run: docker pull ghcr.io/mikucat0309/podos:latest
+        run: docker pull ghcr.io/mikucat0309/podos:${{ env.FEDORA_VERSION }}
 
       - name: Get kernel version
         id: meta
         run: |
-          version=$(docker run ghcr.io/mikucat0309/podos:latest rpm -q kernel-core --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}')
+          version=$(docker run ghcr.io/mikucat0309/podos:${{ env.FEDORA_VERSION }} rpm -q kernel-core --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}')
           echo "kernel-version=$version" >> $GITHUB_OUTPUT
 
       - name: Build nvidia image
