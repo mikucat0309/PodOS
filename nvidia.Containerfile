@@ -1,4 +1,4 @@
-ARG FEDORA_VERSION=44
+ARG FEDORA_VERSION=invalid
 ARG KERNEL_VERSION=0.0.0-invalid.fc00.x86_64
 FROM ghcr.io/ublue-os/akmods-nvidia-open:main-${FEDORA_VERSION}-${KERNEL_VERSION} AS akmods
 

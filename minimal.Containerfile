@@ -1,4 +1,4 @@
-ARG FEDORA_VERSION=44
+ARG FEDORA_VERSION=invalid
 FROM quay.io/bootc-devel/fedora-bootc-${FEDORA_VERSION}-minimal:latest
 
 COPY <<EOF /etc/dnf/dnf.conf
