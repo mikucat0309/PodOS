@@ -8,7 +8,7 @@ permissions:
   packages: write
 
 env:
-  FEDORA_VERSION: "44"
+  FEDORA_VERSION: "45"
 
 jobs:
   build:
