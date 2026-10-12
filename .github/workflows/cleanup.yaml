@@ -1,0 +1,28 @@
+name: Cleanup
+
+on:
+  workflow_dispatch:
+
+permissions:
+  packages: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-26.04
+    steps:
+      - name: Delete untagged PodOS images
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PACKAGE: podos
+        run: |
+          owner="${{ github.repository_owner }}"
+
+          ids=$(gh api "/users/$owner/packages/container/$PACKAGE/versions?per_page=100" --jq '.[] | select(.metadata.container.tags | length == 0) | .id')
+          if [ -z "$ids" ]; then
+            exit 0
+          fi
+
+          for id in $ids; do
+            echo "delete $owner/$PACKAGE/$id"
+            gh api --method DELETE "/users/$owner/packages/container/$PACKAGE/versions/$id"
+          done
