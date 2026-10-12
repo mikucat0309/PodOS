@@ -8,8 +8,8 @@ RUN --mount=type=bind,from=akmods,src=/rpms,dst=/akmods <<EORUN
 set -exuo pipefail
 dnf install -y /akmods/ublue-os/ublue-os-nvidia-addons-*.rpm
 
-sed -i 's/^enabled=0/enabled=1/' /etc/yum.repos.d/negativo17-fedora-nvidia.repo \
-  /etc/yum.repos.d/nvidia-container-toolkit.repo
+sed -i 's/^enabled=0/enabled=1/' /usr/share/dnf5/repos.d/negativo17-fedora-nvidia.repo \
+  /usr/share/dnf5/repos.d/nvidia-container-toolkit.repo
 
 dnf install -y \
   /akmods/kmods/kmod-nvidia-*.x86_64.rpm \
@@ -20,8 +20,8 @@ dnf install -y \
   /akmods/nvidia/nvidia-persistenced-*.x86_64.rpm \
   nvidia-container-toolkit-base
 
-sed -i 's/^enabled=1/enabled=0/' /etc/yum.repos.d/negativo17-fedora-nvidia.repo \
-  /etc/yum.repos.d/nvidia-container-toolkit.repo
+sed -i 's/^enabled=1/enabled=0/' /usr/share/dnf5/repos.d/negativo17-fedora-nvidia.repo \
+/usr/share/dnf5/repos.d/nvidia-container-toolkit.repo
 dnf clean all
 rm -rf /var/cache/* /var/lib/dnf /var/log/dnf5.log /run/dnf /run/selinux-policy
 EORUN
